@@ -4,10 +4,13 @@ import 'package:intl/intl.dart';
 import '/models/kegiatan.dart';
 import 'form_kegiatan_page.dart';
 
-class ListKegiatanPage extends StatelessWidget {
-  final List<Kegiatan> kegiatanList;
+class ListKegiatanPage extends StatefulWidget {
+  @override
+  _ListKegiatanPageState createState() => _ListKegiatanPageState();
+}
 
-  ListKegiatanPage({required this.kegiatanList});
+class _ListKegiatanPageState extends State<ListKegiatanPage> {
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,39 @@ class ListKegiatanPage extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.amber,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {}); // Reload data
+            },
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48.0),
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Cari berdasarkan judul, nama, tanggal, atau hari...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
+            ),
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('kegiatan').snapshots(),
@@ -30,6 +66,17 @@ class ListKegiatanPage extends StatelessWidget {
               .map(
                   (doc) => Kegiatan.fromMap(doc.data() as Map<String, dynamic>))
               .toList();
+
+          // Filter kegiatan berdasarkan searchQuery
+          kegiatanList = kegiatanList.where((kegiatan) {
+            String formattedDate = DateFormat('EEEE, d MMMM yyyy')
+                .format(kegiatan.tanggal)
+                .toLowerCase();
+            return kegiatan.judul.toLowerCase().contains(searchQuery) ||
+                kegiatan.nama.toLowerCase().contains(searchQuery) ||
+                formattedDate.contains(searchQuery);
+          }).toList();
+
           return kegiatanList.isEmpty
               ? Center(child: Text('Belum ada kegiatan'))
               : ListView.builder(

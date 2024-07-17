@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _HomeScreenState()
       : _pageOptions = [
-          ListKegiatanPage(kegiatanList: []),
+          ListKegiatanPage(), // Hapus kegiatanList di sini
           AboutPage(),
         ];
 
@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 60,
         index: _pageIndex,
         items: <Widget>[
-          // Icon(Icons.home, color: Colors.white, size: 30),
           Icon(Icons.list, color: Colors.white, size: 30),
           Icon(Icons.account_circle, color: Colors.white, size: 30),
         ],
