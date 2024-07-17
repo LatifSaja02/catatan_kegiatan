@@ -30,13 +30,14 @@ class ListKegiatanPage extends StatelessWidget {
               .map(
                   (doc) => Kegiatan.fromMap(doc.data() as Map<String, dynamic>))
               .toList();
-
           return kegiatanList.isEmpty
               ? Center(child: Text('Belum ada kegiatan'))
               : ListView.builder(
                   itemCount: kegiatanList.length,
                   itemBuilder: (context, index) {
                     Kegiatan kegiatan = kegiatanList[index];
+                    kegiatanList.sort((a, b) => b.tanggal.compareTo(a
+                        .tanggal)); // mengurutkan data berdasarkan tanggal terbaru
                     return GestureDetector(
                       onTap: () {
                         _showDetailDialog(context, kegiatan);
@@ -124,7 +125,7 @@ class ListKegiatanPage extends StatelessWidget {
                                   ),
                                 ).then((confirmed) async {
                                   if (confirmed ?? false) {
-                                    // Delete activity if confirmed
+                                    // konfirmasi hapus data
                                     await FirebaseFirestore.instance
                                         .collection('kegiatan')
                                         .doc(docs[index].id)

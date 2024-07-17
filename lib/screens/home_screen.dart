@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-// import '/pages/home_page.dart';
 import '/pages/list_kegiatan_page.dart';
 import '/pages/about_page.dart';
 
@@ -16,7 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _HomeScreenState()
       : _pageOptions = [
-          // HomePage(),
           ListKegiatanPage(kegiatanList: []),
           AboutPage(),
         ];

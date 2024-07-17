@@ -30,6 +30,7 @@ class _KegiatanFormState extends State<KegiatanForm> {
     }
   }
 
+  // fingsi untuk memilih Tanggal
   void _pickDate() async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -45,6 +46,7 @@ class _KegiatanFormState extends State<KegiatanForm> {
     }
   }
 
+  //fungsi untuk menyimpan data
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       Kegiatan newKegiatan = Kegiatan(
