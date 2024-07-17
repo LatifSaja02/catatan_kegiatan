@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _HomeScreenState()
       : _pageOptions = [
-          ListKegiatanPage(), // Hapus kegiatanList di sini
+          ListKegiatanPage(), 
           AboutPage(),
         ];
 
